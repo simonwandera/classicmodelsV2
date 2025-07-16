@@ -16,15 +16,33 @@ import jakarta.persistence.Table;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+    @Column(name = "productCode")
     private String productCode;
 
+    @Column(nullable = false)
+    private String product_code;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_line_id")
-    private ProductLine productLine;
+    private ProductLine product_line;
+
+    @Column(nullable = false)
+    private String product_scale;
+
+    @Column(nullable = false)
+    private String product_vendor;
+
+    @Column(nullable = false)
+    private String product_description;
+
+    @Column(nullable = false)
+    private String quantity_in_stock;
+
+    @Column(nullable = false)
+    private String buy_price;
+
+    @Column(nullable = false)
+    private String MSRP;
+
 
 }

@@ -35,7 +35,7 @@ public class Orders {
     // Many-to-One relationship with Customer
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_number", nullable = false)
-    private Customer customer;
+    private Customers customer;
     // One-to-Many relationship with OrderDetails
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //when I do something to the parent, also do it to the children.
     private List<OrderDetails> orderDetails;
