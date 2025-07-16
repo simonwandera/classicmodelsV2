@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/classicmodels
     username: postgres
-    password: loremipsum
+    password: ${DB_PASSWORD:maryann}
     #    driver-class-name: org.postgresql.Driver
 
     hikari:
