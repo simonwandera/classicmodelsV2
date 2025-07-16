@@ -24,16 +24,16 @@ public class OrderDetails {
     private String priceEach;
 
     @Column(nullable = false)
-    private Short orderLineNumber;
+    private String orderLineNumber;
 
     // Many-to-One relationship with Orders
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_number", referencedColumnName = "orderNumber")
+    @JoinColumn(name = "order_id")//references the ID, not orderNumber
     private Orders order;
 
     // Many-to-One relationship with Products
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_code", referencedColumnName = "productCode")
+    @JoinColumn(name = "product_code_id")
     private Product product;
 }
 
