@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "product_line")
+@Table(name = "product_line") //I think the table name here is supposed to be products
 public class Product {
 
     @Id
