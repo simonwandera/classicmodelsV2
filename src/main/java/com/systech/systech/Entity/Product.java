@@ -22,6 +22,27 @@ public class Product {
     @Column(nullable = false)
     private String productCode;
 
+    @Column(nullable = false)
+    private String productName;
+
+    @Column(nullable = false)
+    private String productScale;
+
+    @Column(nullable = false)
+    private String productVendor;
+
+    @Column(nullable = false)
+    private String productDescription;
+
+    @Column(nullable = false)
+    private Short quantityInStock;
+
+    @Column(nullable = false)
+    private Double buyPrice;
+
+    @Column(nullable = false)
+    private Double msrp;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_line_id")
