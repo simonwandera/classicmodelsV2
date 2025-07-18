@@ -1,6 +1,7 @@
 package com.systech.systech.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table (name= "Employee" )

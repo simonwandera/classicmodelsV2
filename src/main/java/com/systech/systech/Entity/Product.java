@@ -10,19 +10,31 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "products") //I think the table name here is supposed to be products
+@Table(name = "products")//I think the table name here is supposed to be products
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "productCode")
     private String productCode;
 
-    @Column(nullable = false)
-    private String product_code;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(nullable = false)
+    private String MSRP; // Manufacturer's Suggested Retail Price
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false )
     @JoinColumn(name = "product_line_id")
     private ProductLine product_line;
 
@@ -41,8 +53,7 @@ public class Product {
     @Column(nullable = false)
     private String buy_price;
 
-    @Column(nullable = false)
-    private String MSRP;
+
 
 
 }
