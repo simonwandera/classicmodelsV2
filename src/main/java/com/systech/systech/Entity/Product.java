@@ -27,29 +27,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "productCode")
     private String productCode;
-
-    @Column(nullable = false)
-    private String productName;
-
-    @Column(nullable = false)
-    private String productScale;
-
-    @Column(nullable = false)
-    private String productVendor;
-
-    @Column(nullable = false)
-    private String productDescription;
-
-    @Column(nullable = false)
-    private Short quantityInStock;
-
-    @Column(nullable = false)
-    private Double buyPrice;
-
-    @Column(nullable = false)
-    private Double msrp;
 
 
     @Column(nullable = false)
@@ -57,6 +36,24 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false )
     @JoinColumn(name = "product_line_id")
-    private ProductLine productLine;
+    private ProductLine product_line;
+
+    @Column(nullable = false)
+    private String product_scale;
+
+    @Column(nullable = false)
+    private String product_vendor;
+
+    @Column(nullable = false)
+    private String product_description;
+
+    @Column(nullable = false)
+    private String quantity_in_stock;
+
+    @Column(nullable = false)
+    private String buy_price;
+
+
+
 
 }

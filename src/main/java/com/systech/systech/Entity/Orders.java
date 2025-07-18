@@ -38,9 +38,9 @@ public class Orders {
     @Column
     private String comments;
     // Many-to-One relationship with Customer
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "customer_number", nullable = false)
-//    private Customer customer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_number", nullable = false)
+    private Customers customer;
     // One-to-Many relationship with OrderDetails
 
 
