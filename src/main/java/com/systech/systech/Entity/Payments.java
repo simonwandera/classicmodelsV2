@@ -1,9 +1,22 @@
 package com.systech.systech.Entity;
 
-import jakarta.persistence.*;
+    import jakarta.persistence.*;
+    import lombok.Data;
+    import lombok.NoArgsConstructor;
+    import lombok.AllArgsConstructor;
+    import lombok.ToString;
 
-@Entity
-@Table(name = "payments")
+    import java.math.BigDecimal;
+    import java.time.LocalDate;
+
+    @Entity
+    @Table(name = "payments")
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString(exclude = {"customer"})
+
+
 
 public class Payments {
     @Id
@@ -15,7 +28,7 @@ public class Payments {
     private Customers customer; // reference to Customer entity
 
     @Column
-    private String payment_date;
+    private String pmt_date;
 
     @Column
     private String amount;

@@ -21,6 +21,6 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "customerNumber")
-    private Customer customerNumber;
+    private Customers customerNumber;
 
 }
