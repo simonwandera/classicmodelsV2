@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -25,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"orders", "payments", "salesRepEmployee"}) // Exclude to avoid circular references
-public class Customer {
+public class Customers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
