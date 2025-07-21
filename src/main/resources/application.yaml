@@ -2,10 +2,10 @@ spring:
 
 
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/classicmodels}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:password}
-    #    driver-class-name: org.postgresql.Driver
+    url: jdbc:mysql://localhost:3306/classicmodelsV2
+    username: root
+    password: Cmwende@3
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
     hikari:
       connection-timeout: 30000
@@ -19,6 +19,13 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
-    database-platform: org.hibernate.dialect.mySQLDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
 server:
-  port: 8081
+  port: 8083
+application:
+  name: classicmodelsV2
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
