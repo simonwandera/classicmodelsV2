@@ -1,64 +1,60 @@
+
 package com.systech.systech.Entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.CascadeType;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.ToString;
-
-import java.math.BigDecimal;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "products")
-@Data
-@NoArgsConstructor
+@Table(name = "products")//I think the table name here is supposed to be products
+@Getter
+@Setter
 @AllArgsConstructor
-@ToString(exclude = {"productLine", "orderDetails"}) // Exclude to avoid circular references
+@NoArgsConstructor
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "productCode")
     private String productCode;
 
-    @Column(nullable = false)
-    private String productName;
 
     @Column(nullable = false)
-    private String productScale;
+    private String MSRP; // Manufacturer's Suggested Retail Price
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false )
+    @JoinColumn(name = "product_line_id")
+    private ProductLine product_line;
 
     @Column(nullable = false)
-    private String productVendor;
-
-    @Column(columnDefinition = "TEXT")
-    private String productDescription;
+    private String product_scale;
 
     @Column(nullable = false)
-    private Integer quantityInStock;
+    private String product_vendor;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal buyPrice;
+    @Column(nullable = false)
+    private String product_description;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal msrp; // Manufacturer's Suggested Retail Price
+    @Column(nullable = false)
+    private String quantity_in_stock;
 
-    // Many-to-One relationship with ProductLine
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_line_id", nullable = false)
-    private ProductLine productLine;
+    @Column(nullable = false)
+    private String buy_price;
+
+
+
 
     // One-to-Many relationship with OrderDetails
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

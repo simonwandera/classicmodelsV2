@@ -32,8 +32,24 @@ package com.systech.systech.Entity;
 
         @Column(nullable = false, precision = 10, scale = 2)
         private BigDecimal amount;
+@Entity
+@Table(name = "payments")
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "customer_number", referencedColumnName = "customerNumber", nullable = false, insertable = false, updatable = false)
-        private Customer customer;
-    }
+public class Payments {
+    @Id
+    @Column(name = "checkNumber")
+    private String check_number;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_number", nullable = false) // foreign key column
+    private Customers customer; // reference to Customer entity
+
+    @Column
+    private String payment_date;
+
+    @Column
+    private String amount;
+
+
+
+}

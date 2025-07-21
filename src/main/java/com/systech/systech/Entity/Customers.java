@@ -26,29 +26,30 @@ import java.util.List;
 @AllArgsConstructor
 @ToString(exclude = {"orders", "payments", "salesRepEmployee"}) // Exclude to avoid circular references
 public class Customer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "customer_number", nullable = false, unique = true)
     private String customerNumber;
 
-    @Column(nullable = false)
+    @Column(name = "customer_name",nullable = false)
     private String customerName;
 
-    @Column(nullable = false)
+    @Column(name = "contact_last_name", nullable = false)
     private String contactLastName;
 
-    @Column(nullable = false)
+    @Column(name = "contact_first_name", nullable = false)
     private String contactFirstName;
 
     @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
+    @Column(name = "address_line1", nullable = false)
     private String addressLine1;
 
-    @Column
+    @Column(name = "address_line2")
     private String addressLine2;
 
     @Column(nullable = false)
@@ -57,19 +58,18 @@ public class Customer {
     @Column
     private String state;
 
-    @Column
+    @Column (name = "postal_code")
     private String postalCode;
 
-    @Column(nullable = false)
+    @Column
     private String country;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal creditLimit;
+    @Column
+    private Double creditLimit;
 
-    // Many-to-One relationship with Employee (Sales Representative)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sales_rep_employee_number", referencedColumnName = "employeeNumber")
-    private Employee salesRepEmployee;
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_employee_number", nullable = false)
+    private Employee salesRepEmployeeNumber;
 
     // One-to-Many relationship with Orders
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
