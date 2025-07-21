@@ -12,10 +12,11 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-@Getter
-@Setter
+
 @Entity
 @Table(name = "order_details")
+@Getter
+@Setter
 @ToString(exclude = {"order", "product"}) // Exclude to avoid circular references
 public class OrderDetails {
 

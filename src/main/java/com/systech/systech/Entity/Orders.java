@@ -12,12 +12,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
 @ToString(exclude = {"customer", "orderDetails"}) // Exclude to avoid circular references
 public class Orders {
 
