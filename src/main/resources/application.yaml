@@ -19,10 +19,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database: ${DATABASE}
+    database-platform: ${DATABASE_PLATFORM}
 server:
-  port: 8083
+  port: ${SERVER_PORT}
 application:
   name: classicmodelsV2
 
