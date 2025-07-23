@@ -17,9 +17,9 @@ public class EmployeeController {
 
     private final EmployeeServiceI employeeService;
 
-    /**
-     * Create a new employee
-     * POST /api/employees
+    /*
+     Create a new employee
+     POST /api/employees
      */
     @PostMapping
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
@@ -31,9 +31,9 @@ public class EmployeeController {
         }
     }
 
-    /**
-     * Get all employees
-     * GET /api/employees
+    /*
+     Get all employees
+     GET /api/employees
      */
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
@@ -48,9 +48,9 @@ public class EmployeeController {
         }
     }
 
-    /**
-     * Get employee by ID
-     * GET /api/employees/{id}
+    /*
+     Get employee by ID
+     GET /api/employees/{id}
      */
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
@@ -80,9 +80,9 @@ public class EmployeeController {
         }
     }
 
-    /**
-     * Delete employee by ID
-     * DELETE /api/employees/{id}
+    /*
+     Delete employee by ID
+     DELETE /api/employees/{id}
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable Long id) {
@@ -94,9 +94,9 @@ public class EmployeeController {
         }
     }
 
-    /**
-     * Health check endpoint
-     * GET /api/employees/health
+    /*
+     Health check endpoint
+     GET /api/employees/health
      */
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {

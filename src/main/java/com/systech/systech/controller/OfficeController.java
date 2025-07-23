@@ -17,9 +17,9 @@ public class OfficeController {
 
     private final OfficeServiceI officeService;
 
-    /**
-     * Create a new office
-     * POST /api/offices
+    /*
+     Create a new office
+     POST /api/offices
      */
     @PostMapping
     public ResponseEntity<Office> createOffice(@RequestBody Office office) {
@@ -31,9 +31,9 @@ public class OfficeController {
         }
     }
 
-    /**
-     * Get all offices
-     * GET /api/offices
+    /*
+     Get all offices
+     GET /api/offices
      */
     @GetMapping
     public ResponseEntity<List<Office>> getAllOffices() {
@@ -48,9 +48,9 @@ public class OfficeController {
         }
     }
 
-    /**
-     * Get office by ID
-     * GET /api/offices/{id}
+    /*
+     Get office by ID
+     GET /api/offices/{id}
      */
     @GetMapping("/{id}")
     public ResponseEntity<Office> getOfficeById(@PathVariable Long id) {
@@ -64,9 +64,9 @@ public class OfficeController {
         }
     }
 
-    /**
-     * Update office by ID
-     * PUT /api/offices/{id}
+    /*
+     Update office by ID
+     PUT /api/offices/{id}
      */
     @PutMapping("/{id}")
     public ResponseEntity<Office> updateOffice(@PathVariable Long id, @RequestBody Office office) {
@@ -80,9 +80,9 @@ public class OfficeController {
         }
     }
 
-    /**
-     * Delete office by ID
-     * DELETE /api/offices/{id}
+    /*
+     Delete office by ID
+     DELETE /api/offices/{id}
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteOffice(@PathVariable Long id) {
@@ -94,9 +94,9 @@ public class OfficeController {
         }
     }
 
-    /**
-     * Health check endpoint
-     * GET /api/offices/health
+    /*
+     Health check endpoint
+     GET /api/offices/health
      */
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {
