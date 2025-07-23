@@ -32,4 +32,5 @@ public class Payments extends BaseEntity {
     private String amount;
 
 
+
 }
