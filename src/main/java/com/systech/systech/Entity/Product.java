@@ -46,11 +46,8 @@ public class Product {
     private Short quantityInStock;
 
     @Column(nullable = false)
-    private Double buyPrice;
+    private String buyPrice;
 
-
-    @Column(nullable = false)
-    private Double msrp; // Manufacturer's Suggested Retail Price
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false )
     @JoinColumn(name = "product_line_id")
