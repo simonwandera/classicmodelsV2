@@ -1,4 +1,3 @@
-
 package com.systech.systech.Entity;
 
 import jakarta.persistence.CascadeType;
@@ -67,3 +66,4 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List <OrderDetails> orderDetails;
 }
+
