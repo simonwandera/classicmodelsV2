@@ -7,10 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -22,16 +26,16 @@ public class ProductController {
     // Define endpoints for product-related operations here
     // For example, you can create methods to handle CRUD operations for products
 
-//     Example method to get all products
-     @GetMapping("/products")
-     public ResponseEntity<List<Product>> getAllProducts() {
-         Product product = new Product();
+    //     Example method to get all products
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        Product product = new Product();
 
-         product.setProductName("Sample Product");
+        product.setProductName("Sample Product");
 
-         if (product.getId() == null ) {
-             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-         }
+        if (product.getId() == null ) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
 
 //         ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
          return ResponseEntity.ok(List.of(product));
