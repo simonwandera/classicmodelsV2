@@ -1,57 +1,80 @@
 package com.systech.systech.Entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.CascadeType;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"orders", "payments", "salesRepEmployee"}) // Exclude to avoid circular references
 public class Customers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customer_number;
+    private Long id;
 
-    @Column
-    private String customer_name;
+    @Column(name = "customer_number", nullable = false, unique = true)
+    private String customerNumber;
 
-    @Column
-    private String contact_last_name;
+    @Column(name = "customer_name",nullable = false)
+    private String customerName;
 
-    @Column
-    private String contact_first_name;
+    @Column(name = "contact_last_name", nullable = false)
+    private String contactLastName;
 
-    @Column
-    private Long phone;
+    @Column(name = "contact_first_name", nullable = false)
+    private String contactFirstName;
 
-    @Column
-    private String address_line_1;
+    @Column(nullable = false)
+    private String phone;
 
-    @Column
-    private String address_line_2;
+    @Column(name = "address_line1", nullable = false)
+    private String addressLine1;
 
-    @Column
-    private String city ;
+    @Column(name = "address_line2")
+    private String addressLine2;
+
+    @Column(nullable = false)
+    private String city;
 
     @Column
     private String state;
 
-    @Column
-    private String postal_code;
+    @Column (name = "postal_code")
+    private String postalCode;
 
     @Column
     private String country;
 
     @Column
-    private Long sales_rep_employee_number;
+    private Double creditLimit;
 
-    @Column
-    private double credit_limit;
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_employee_number", nullable = false)
+    private Employee salesRepEmployeeNumber;
 
+    // One-to-Many relationship with Orders
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Orders> orders;
+
+    // One-to-Many relationship with Payments
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Payments> payments;
 }

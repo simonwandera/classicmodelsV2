@@ -2,10 +2,11 @@ spring:
 
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/classicmodels
-    username: postgres
-    password: ${DB_PASSWORD:maryann}
-    #    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER}
+
 
     hikari:
       connection-timeout: 30000
@@ -18,7 +19,14 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
 server:
-  port: 8081
+  port: 8083
+application:
+  name: classicmodelsV2
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
