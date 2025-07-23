@@ -40,7 +40,7 @@ public class Product {
     @Column(nullable = false)
     private String MSRP; // Manufacturer's Suggested Retail Price
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false )
     @JoinColumn(name = "product_line_id")
     private ProductLine product_line;
 
@@ -60,6 +60,10 @@ public class Product {
     private String buy_price;
 
 
+
+
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OrderDetails> orderDetails;
+    private List <OrderDetails> orderDetails;
 }
+
