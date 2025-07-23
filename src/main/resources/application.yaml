@@ -1,11 +1,12 @@
 spring:
-
+  application:
+    name: classicmodelsV2
 
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: ${DB_DRIVER}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/classicmodelsV2}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:defaultpassword}
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
 
 
     hikari:
@@ -19,12 +20,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database: ${DATABASE:mysql}
+    database-platform: ${DATABASE_PLATFORM:org.hibernate.dialect.MySQLDialect}
 server:
-  port: 8083
-application:
-  name: classicmodelsV2
+  port: ${SERVER_PORT:8080}
+
 
 logging:
   level:
