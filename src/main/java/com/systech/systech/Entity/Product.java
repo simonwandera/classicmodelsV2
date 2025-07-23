@@ -48,12 +48,9 @@ public class Product {
     @Column(nullable = false)
     private Double buyPrice;
 
-    @Column(nullable = false)
-    private Double msrp;
-
 
     @Column(nullable = false)
-    private String MSRP; // Manufacturer's Suggested Retail Price
+    private Double msrp; // Manufacturer's Suggested Retail Price
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false )
     @JoinColumn(name = "product_line_id")
