@@ -18,14 +18,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name= "Employee" )
-
-public class Employee {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name= "employee" )
+public class Employee  extends BaseEntity{
 
     @Column(nullable = false)
     private Long employeeNumber;

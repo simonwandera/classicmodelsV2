@@ -20,15 +20,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "customers")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"orders", "payments", "salesRepEmployee"}) // Exclude to avoid circular references
-public class Customers {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Customers extends BaseEntity{
 
     @Column(name = "customer_number", nullable = false, unique = true)
     private String customerNumber;

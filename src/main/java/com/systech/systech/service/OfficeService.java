@@ -5,12 +5,13 @@ import com.systech.systech.Repository.OfficeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class OfficeImpl implements OfficeServiceI {
+public class OfficeService implements OfficeServiceI {
 
     private final OfficeRepository officeRepository;
 
@@ -37,7 +38,11 @@ public class OfficeImpl implements OfficeServiceI {
 
     @Override
     public List<Office> getAllOffices() {
-        return officeRepository.findAll();
+        List<Office> offices =  officeRepository.findAll();
+        if (offices.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return offices;
     }
 
     @Override
