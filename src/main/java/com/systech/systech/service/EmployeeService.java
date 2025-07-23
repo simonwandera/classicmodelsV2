@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeeImpl implements EmployeeServiceI {
+public class EmployeeService implements EmployeeServiceI {
 
     private final EmployeeRepository employeeRepository;
 
@@ -23,7 +23,6 @@ public class EmployeeImpl implements EmployeeServiceI {
     public Employee updateEmployee(Long id, Employee employee) {
         Optional<Employee> existing = employeeRepository.findById(id);
         if (existing.isPresent()) {
-            employee.setId(id);
             return employeeRepository.save(employee);
         } else {
             throw new RuntimeException("Employee not found with id: " + id);

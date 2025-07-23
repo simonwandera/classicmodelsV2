@@ -27,6 +27,7 @@ public class OfficeController {
             Office createdOffice = officeService.createOffice(office);
             return new ResponseEntity<>(createdOffice, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -39,9 +40,6 @@ public class OfficeController {
     public ResponseEntity<List<Office>> getAllOffices() {
         try {
             List<Office> offices = officeService.getAllOffices();
-            if (offices.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
             return new ResponseEntity<>(offices, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -17,10 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "office")
-public class Office {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Office extends BaseEntity {
 
     @Column(nullable = false)
     private String officeCode;
