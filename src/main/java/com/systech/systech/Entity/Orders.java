@@ -1,6 +1,6 @@
 package com.systech.systech.Entity;
 
-//I tried listing every specific import but everytime I write another entity this import with asterik replaces all the imports
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
