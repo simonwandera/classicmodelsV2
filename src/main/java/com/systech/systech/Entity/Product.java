@@ -1,4 +1,3 @@
-
 package com.systech.systech.Entity;
 
 import jakarta.persistence.CascadeType;
@@ -26,11 +25,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Product extends BaseEntity{
 
     @Column(name = "productCode")
     private String productCode;
@@ -39,7 +34,7 @@ public class Product {
     private String productName;
 
     @Column(nullable = false)
-    private String MSRP; // Manufacturer's Suggested Retail Price
+    private String MSRP;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false )
     @JoinColumn(name = "product_line_id")
@@ -60,10 +55,7 @@ public class Product {
     @Column(nullable = false)
     private String buy_price;
 
-
-
-
-
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List <OrderDetails> orderDetails;
 }
+

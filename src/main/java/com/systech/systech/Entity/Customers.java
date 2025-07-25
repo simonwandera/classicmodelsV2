@@ -12,23 +12,21 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @Table(name = "customers")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"orders", "payments", "salesRepEmployee"}) // Exclude to avoid circular references
-public class Customers {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Getter
+@Setter
+public class Customers extends BaseEntity{
 
     @Column(name = "customer_number", nullable = false, unique = true)
     private String customerNumber;

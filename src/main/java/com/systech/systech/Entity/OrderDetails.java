@@ -18,11 +18,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = {"order", "product"}) // Exclude to avoid circular references
-public class OrderDetails {
+public class OrderDetails extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     private String orderNumber;

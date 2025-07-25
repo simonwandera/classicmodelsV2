@@ -25,7 +25,6 @@ public class OrdersService implements OrdersServiceI{
         if (order.isPresent()) {
             return order.get();
         }
-        log.warn("Order with id {} not found", id);
         return null;
     }
 

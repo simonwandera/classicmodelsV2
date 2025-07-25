@@ -1,6 +1,5 @@
 spring:
-  application:
-    name: classicmodelsV2
+
 
   datasource:
     url: ${DB_URL:jdbc:mysql://localhost:3306/classicmodelsV2}

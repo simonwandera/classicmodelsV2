@@ -20,11 +20,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductLine {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ProductLine extends BaseEntity {
 
     @Column
     @OneToMany(mappedBy = "product_line", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

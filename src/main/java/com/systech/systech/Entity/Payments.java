@@ -16,24 +16,21 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString(exclude = {"customer"})
 
-
-public class Payments {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Payments extends BaseEntity {
 
     @Column(name = "check_number")
     private String checkNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_number", nullable = false) // foreign key column
-    private Customers customer; // reference to Customer entity
+    private Customers customer;
 
     @Column(name = "payment_date", nullable = false)
     private String paymentDate;
 
     @Column
     private String amount;
+
 
 
 }

@@ -22,10 +22,6 @@ public class ProductLineController {
 
     private final ProductLineServiceI productLineService;
 
-    // POST, GET, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE
-    // Define endpoints for product-related operations here
-    // For example, you can create methods to handle CRUD operations for products
-
     //     Example method to get all products
     @GetMapping
     public ResponseEntity<List<ProductLine>> getList() {

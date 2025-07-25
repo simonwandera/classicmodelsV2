@@ -1,6 +1,7 @@
 package com.systech.systech.Entity;
 
-
+//I tried listing every specific import but everytime I write another entity this import with asterik replaces all the imports
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,11 +50,13 @@ public class Orders {
     // Many-to-One relationship with Customer
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_number", nullable = false)
+    @JsonIgnore
     private Customers customer;
     // One-to-Many relationship with OrderDetails
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //when I do something to the parent, also do it to the children.
+    @JsonIgnore
     private List <OrderDetails> orderDetails;
 
 }
