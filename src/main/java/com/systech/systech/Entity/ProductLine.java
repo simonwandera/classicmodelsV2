@@ -23,7 +23,6 @@ import lombok.Setter;
 public class ProductLine extends BaseEntity {
 
     @Column
-    @OneToMany(mappedBy = "product_line", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private String productCode;
 
     @Column

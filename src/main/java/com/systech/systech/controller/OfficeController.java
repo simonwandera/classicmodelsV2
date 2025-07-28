@@ -21,7 +21,7 @@ public class OfficeController {
      Create a new office
      POST /api/offices
      */
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Office> createOffice(@RequestBody Office office) {
         try {
             Office createdOffice = officeService.createOffice(office);
@@ -36,7 +36,7 @@ public class OfficeController {
      Get all offices
      GET /api/offices
      */
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<Office>> getAllOffices() {
         try {
             List<Office> offices = officeService.getAllOffices();
