@@ -5,7 +5,7 @@ import com.systech.systech.Entity.Customer;
 import java.util.List;
 import java.util.Optional;
 
-public interface CustomersService {
+public interface CustomerService {
     List<Customer> getAll();
 
     Optional<Customer> getById(Long id);
@@ -21,6 +21,8 @@ public interface CustomersService {
     Optional<Customer> update(Long id, Customer updatedCustomer);
 
     boolean delete(Long id);
+
+
 
 
 }

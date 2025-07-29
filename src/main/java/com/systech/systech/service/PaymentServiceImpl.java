@@ -1,6 +1,6 @@
 package com.systech.systech.service;
 
-import com.systech.systech.Entity.Payments;
+import com.systech.systech.Entity.Payment;
 import com.systech.systech.Repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,37 +16,37 @@ public class PaymentServiceImpl implements PaymentService{
     private final PaymentRepository paymentRepository;
 
     @Override
-    public List<Payments> getAll() {
+    public List<Payment> getAll() {
         log.info("Fetching all payments");
         return paymentRepository.findAll();
     }
 
     @Override
-    public Optional<Payments> getById(Long id) {
+    public Optional<Payment> getById(Long id) {
         log.info("Fetching payment by ID: {}", id);
         return paymentRepository.findById(id);
     }
 
     @Override
-    public List<Payments> getByCustomer(Long customerId) {
+    public List<Payment> getByCustomer(Long customerId) {
         log.info("Fetching payments for customer ID: {}", customerId);
         return paymentRepository.findByCustomer_Id(customerId);
     }
 
     @Override
-    public List<Payments> searchByCheckNumber(String partialCheckNumber) {
+    public List<Payment> searchByCheckNumber(String partialCheckNumber) {
         log.info("Searching payments by partial check number: {}", partialCheckNumber);
         return paymentRepository.findByCheckNumberContainingIgnoreCase(partialCheckNumber);
     }
 
     @Override
-    public Payments create(Payments payment) {
+    public Payment create(Payment payment) {
         log.info("Creating payment: check #{} for customer ID {}", payment.getCheckNumber(), payment.getCustomer().getId());
         return paymentRepository.save(payment);
     }
 
     @Override
-    public Optional<Payments> update(Long id, Payments updatedPayment) {
+    public Optional<Payment> update(Long id, Payment updatedPayment) {
         log.info("Updating payment with ID: {}", id);
         return paymentRepository.findById(id).map(existing -> {
             updatedPayment.setId(id);

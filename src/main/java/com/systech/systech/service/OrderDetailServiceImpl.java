@@ -1,7 +1,7 @@
 package com.systech.systech.service;
 
-import com.systech.systech.Entity.OrderDetails;
-import com.systech.systech.Repository.OrderDetailsRepository;
+import com.systech.systech.Entity.OrderDetail;
+import com.systech.systech.Repository.OrderDetailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,17 +12,17 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OrderDetailsService implements OrderDetailsServiceI {
+public class OrderDetailServiceImpl implements OrderDetailService {
 
-    private final OrderDetailsRepository orderDetailsRepository;
+    private final OrderDetailRepository orderDetailRepository;
     @Override
-    public List <OrderDetails> getOrderDetails() {
+    public List <OrderDetail> getOrderDetails() {
 
-        return orderDetailsRepository.findAll();
+        return orderDetailRepository.findAll();
     }
     @Override
-    public OrderDetails getById(Long id) {
-        Optional<OrderDetails> orderDetails = orderDetailsRepository.findById(id);
+    public OrderDetail getById(Long id) {
+        Optional<OrderDetail> orderDetails = orderDetailRepository.findById(id);
         if (orderDetails.isPresent()) {
             return orderDetails.get();
         }
@@ -30,14 +30,14 @@ public class OrderDetailsService implements OrderDetailsServiceI {
         return null;
     }
     @Override
-    public OrderDetails createOrUpdate(OrderDetails orderDetails) {
+    public OrderDetail createOrUpdate(OrderDetail orderDetail) {
 
-        return  orderDetailsRepository.save(orderDetails);
+        return  orderDetailRepository.save(orderDetail);
     }
     @Override
     public void delete(Long id) {
-        if (orderDetailsRepository.existsById(id)) {
-            orderDetailsRepository.deleteById(id);
+        if (orderDetailRepository.existsById(id)) {
+            orderDetailRepository.deleteById(id);
             log.info("OrderDetails with id {} deleted successfully", id);
         } else {
             log.warn("Cannot delete OrderDetails with id {} - not found", id);

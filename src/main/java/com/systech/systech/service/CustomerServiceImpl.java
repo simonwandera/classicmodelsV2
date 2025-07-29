@@ -1,7 +1,7 @@
 package com.systech.systech.service;
 
 import com.systech.systech.Entity.Customer;
-import com.systech.systech.Repository.CustomersRepository;
+import com.systech.systech.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,60 +11,62 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CustomersServiceImpl implements CustomersService{
+public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomersRepository customersRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     public List<Customer> getAll() {
         log.info("Fetching all customers");
-        return customersRepository.findAll();
+        return customerRepository.findAll();
     }
+
+
 
     @Override
     public Optional<Customer> getById(Long id) {
         log.info("Fetching customer by ID: {}", id);
-        return customersRepository.findById(id);
+        return customerRepository.findById(id);
     }
 
     @Override
     public Optional<Customer> getByCustomerName(String name) {
         log.info("Fetching customer by name: {}", name);
-        return customersRepository.findByCustomerName(name);
+        return customerRepository.findByCustomerName(name);
     }
 
     @Override
     public List<Customer> getBySalesRep(Long employeeId) {
         log.info("Fetching customers by sales rep ID: {}", employeeId);
-        return customersRepository.findBySalesRep_Id(employeeId);
+        return customerRepository.findBySalesRepEmployeeNumber_Id(employeeId);
     }
 
     @Override
     public List<Customer> getByCountry(String country) {
         log.info("Fetching customers from country: {}", country);
-        return customersRepository.findByCountryIgnoreCase(country);
+        return customerRepository.findByCountryIgnoreCase(country);
     }
 
     @Override
     public Customer create(Customer customer) {
         log.info("Creating customer: {}", customer.getCustomerName());
-        return customersRepository.save(customer);
+        return customerRepository.save(customer);
     }
 
     @Override
     public Optional<Customer> update(Long id, Customer updatedCustomer) {
         log.info("Updating customer with ID: {}", id);
-        return customersRepository.findById(id).map(existing -> {
+        return customerRepository.findById(id).map(existing -> {
             updatedCustomer.setId(id);
-            return customersRepository.save(updatedCustomer);
+            return customerRepository.save(updatedCustomer);
         });
     }
 
     @Override
     public boolean delete(Long id) {
         log.info("Deleting customer with ID: {}", id);
-        return customersRepository.findById(id).map(existing -> {
-            customersRepository.deleteById(id);
+        return customerRepository.findById(id).map(existing -> {
+            customerRepository.deleteById(id);
             return true;
         }).orElse(false);
     }

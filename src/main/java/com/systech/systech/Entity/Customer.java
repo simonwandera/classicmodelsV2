@@ -2,9 +2,6 @@ package com.systech.systech.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -14,7 +11,6 @@ import jakarta.persistence.CascadeType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -23,7 +19,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customers extends BaseEntity{
+public class Customer extends BaseEntity{
 
     @Column(name = "customer_number", nullable = false, unique = true)
     private String customerNumber;
@@ -71,5 +67,5 @@ public class Customers extends BaseEntity{
 
     // One-to-Many relationship with Payments
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Payments> payments;
+    private List<Payment> payments;
 }

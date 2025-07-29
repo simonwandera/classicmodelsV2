@@ -1,10 +1,10 @@
 
 package com.systech.systech.Repository;
 
-import com.systech.systech.Entity.Orders;
+import com.systech.systech.Entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrdersRepository extends JpaRepository<Orders, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
     // Define any custom query methods if needed
 }
 

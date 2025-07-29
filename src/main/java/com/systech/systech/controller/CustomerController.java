@@ -2,7 +2,7 @@ package com.systech.systech.controller;
 
 
 import com.systech.systech.Entity.Customer;
-import com.systech.systech.service.CustomersService;
+import com.systech.systech.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-public class CustomersController {
-    private final CustomersService customerService;
+public class CustomerController {
+    private final CustomerService customerService;
 
     @GetMapping
     public ResponseEntity<List<Customer>> getAll() {

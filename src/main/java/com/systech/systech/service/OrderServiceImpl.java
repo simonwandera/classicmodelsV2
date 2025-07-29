@@ -1,7 +1,7 @@
 package com.systech.systech.service;
 
-import com.systech.systech.Entity.Orders;
-import com.systech.systech.Repository.OrdersRepository;
+import com.systech.systech.Entity.Order;
+import com.systech.systech.Repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,16 +12,16 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OrdersService implements OrdersServiceI{
-    private final OrdersRepository ordersRepository;
+public class OrderServiceImpl implements OrderServiceI {
+    private final OrderRepository orderRepository;
 
-    public List<Orders> getOrders() {
+    public List<Order> getOrders() {
 
-        return ordersRepository.findAll();
+        return orderRepository.findAll();
     }
     @Override
-    public Orders getById(Long id) {
-        Optional<Orders> order = ordersRepository.findById(id);
+    public Order getById(Long id) {
+        Optional<Order> order = orderRepository.findById(id);
         if (order.isPresent()) {
             return order.get();
         }
@@ -29,15 +29,15 @@ public class OrdersService implements OrdersServiceI{
     }
 
     @Override
-    public Orders createOrUpdate(Orders orders) {
+    public Order createOrUpdate(Order order) {
 
-        return  ordersRepository.save(orders);
+        return  orderRepository.save(order);
     }
 
     @Override
     public void delete(Long id) {
-        if (ordersRepository.existsById(id)) {
-            ordersRepository.deleteById(id);
+        if (orderRepository.existsById(id)) {
+            orderRepository.deleteById(id);
             log.info("Order with id {} deleted successfully", id);
         } else {
             log.warn("Cannot delete Order with id {} - not found", id);

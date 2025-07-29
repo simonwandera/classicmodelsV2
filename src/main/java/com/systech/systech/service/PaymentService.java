@@ -1,22 +1,22 @@
 package com.systech.systech.service;
 
-import com.systech.systech.Entity.Payments;
+import com.systech.systech.Entity.Payment;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PaymentService {
-    List<Payments> getAll();
+    List<Payment> getAll();
 
-    Optional<Payments> getById(Long id);
+    Optional<Payment> getById(Long id);
 
-    List<Payments> getByCustomer(Long customerId);
+    List<Payment> getByCustomer(Long customerId);
 
-    List<Payments> searchByCheckNumber(String partialCheckNumber);
+    List<Payment> searchByCheckNumber(String partialCheckNumber);
 
-    Payments create(Payments payment);
+    Payment create(Payment payment);
 
-    Optional<Payments> update(Long id, Payments updatedPayment);
+    Optional<Payment> update(Long id, Payment updatedPayment);
 
     boolean delete(Long id);
 }
