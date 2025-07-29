@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findAll(Long customerId);
 
     Optional<Product> findByProductCode(String productCode);
-
-    List<Product> findByProductLine_ProductLine(String productLineName);
-
+    List<Product> findByProductLine_ProductCode(String productLineCode);
+    List<Product> findByProductLine_Id(Long productLineId);
 }

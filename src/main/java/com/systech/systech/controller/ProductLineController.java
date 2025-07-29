@@ -1,7 +1,7 @@
 package com.systech.systech.controller;
 
 import com.systech.systech.Entity.ProductLine;
-import com.systech.systech.service.ProductLineServiceI;
+import com.systech.systech.service.ProductLineService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 public class ProductLineController {
 
-    private final ProductLineServiceI productLineService;
+    private final ProductLineService productLineService;
 
     //     Example method to get all products
     @GetMapping
@@ -35,6 +35,11 @@ public class ProductLineController {
     public ResponseEntity<ProductLine> createOrUpdateProductLine(@RequestBody ProductLine product) {
 
         log.info("Creating or updating product line: {}", product);
+        if (product.getProductLine() == null || product.getProductLine().trim().isEmpty()) {
+            log.error("ProductLine field is required");
+            return ResponseEntity.badRequest().build();
+        }
+
         try {
             productLineService.createOrUpdate(product);
         } catch (Exception e) {

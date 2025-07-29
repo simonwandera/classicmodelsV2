@@ -1,12 +1,11 @@
 package com.systech.systech.controller;
 
-import com.systech.systech.Entity.OrderDetails;
-import com.systech.systech.service.OrderDetailsServiceI;
+import com.systech.systech.Entity.OrderDetail;
+import com.systech.systech.service.OrderDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,39 +21,39 @@ import java.util.List;
 @RequestMapping("api/orderDetails")
 @RequiredArgsConstructor
 @Slf4j
-public class OrderDetailsController {
-    private final OrderDetailsServiceI orderDetailsService;
+public class OrderDetailController {
+    private final OrderDetailService orderDetailsService;
 
     // Get all order details - simplified
     @GetMapping
-    public ResponseEntity<List<OrderDetails>> getAllOrderDetails() {
-        List<OrderDetails> list = orderDetailsService.getOrderDetails();
+    public ResponseEntity<List<OrderDetail>> getAllOrderDetails() {
+        List<OrderDetail> list = orderDetailsService.getOrderDetails();
         return ResponseEntity.ok(list != null ? list : Collections.emptyList());
     }
 
     // Get order details by ID - simplified
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDetails> getOrderDetailsById(@PathVariable Long id) {
-        OrderDetails orderDetails = orderDetailsService.getById(id);
-        if (orderDetails != null) {
-            return ResponseEntity.ok(orderDetails);
+    public ResponseEntity<OrderDetail> getOrderDetailsById(@PathVariable Long id) {
+        OrderDetail orderDetail = orderDetailsService.getById(id);
+        if (orderDetail != null) {
+            return ResponseEntity.ok(orderDetail);
         }
         return ResponseEntity.notFound().build();
     }
 
     // Create new order details - simplified
     @PostMapping
-    public ResponseEntity<OrderDetails> createOrderDetails(@RequestBody OrderDetails orderDetails) {
-        log.info("Creating order details: {}", orderDetails);
-        OrderDetails createdOrderDetails = orderDetailsService.createOrUpdate(orderDetails);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderDetails);
+    public ResponseEntity<OrderDetail> createOrderDetails(@RequestBody OrderDetail orderDetail) {
+        log.info("Creating order details: {}", orderDetail);
+        OrderDetail createdOrderDetail = orderDetailsService.createOrUpdate(orderDetail);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderDetail);
     }
 
     // Create or update order details - fixed logic
     @PostMapping("/createOrUpdateOrderDetails")
-    public ResponseEntity<OrderDetails> createOrUpdateOrderDetails(@RequestBody OrderDetails orderDetails) {
-        log.info("Creating or updating orderDetails line: {}", orderDetails);
-        OrderDetails result = orderDetailsService.createOrUpdate(orderDetails);
+    public ResponseEntity<OrderDetail> createOrUpdateOrderDetails(@RequestBody OrderDetail orderDetail) {
+        log.info("Creating or updating orderDetails line: {}", orderDetail);
+        OrderDetail result = orderDetailsService.createOrUpdate(orderDetail);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 

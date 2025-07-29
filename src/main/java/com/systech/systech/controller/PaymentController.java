@@ -1,6 +1,6 @@
 package com.systech.systech.controller;
 
-import com.systech.systech.Entity.Payments;
+import com.systech.systech.Entity.Payment;
 import com.systech.systech.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,17 +15,17 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-public class PaymentsController {
+public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping
-    public ResponseEntity<List<Payments>> getAll() {
+    public ResponseEntity<List<Payment>> getAll() {
         log.info("GET /api/payments");
         return ResponseEntity.ok(paymentService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Payments> getById(@PathVariable Long id) {
+    public ResponseEntity<Payment> getById(@PathVariable Long id) {
         log.info("GET /api/payments/{}", id);
         return paymentService.getById(id)
                 .map(ResponseEntity::ok)
@@ -33,25 +33,25 @@ public class PaymentsController {
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Payments>> getByCustomer(@PathVariable Long customerId) {
+    public ResponseEntity<List<Payment>> getByCustomer(@PathVariable Long customerId) {
         log.info("GET /api/payments/customer/{}", customerId);
         return ResponseEntity.ok(paymentService.getByCustomer(customerId));
     }
 
     @GetMapping("/search/{checkNumber}")
-    public ResponseEntity<List<Payments>> searchByCheckNumber(@PathVariable String checkNumber) {
+    public ResponseEntity<List<Payment>> searchByCheckNumber(@PathVariable String checkNumber) {
         log.info("GET /api/payments/search/{}", checkNumber);
         return ResponseEntity.ok(paymentService.searchByCheckNumber(checkNumber));
     }
 
     @PostMapping
-    public ResponseEntity<Payments> create(@Validated @RequestBody Payments payment) {
+    public ResponseEntity<Payment> create(@Validated @RequestBody Payment payment) {
         log.info("POST /api/payments");
         return ResponseEntity.ok(paymentService.create(payment));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Payments> update(@PathVariable Long id, @Validated @RequestBody Payments payment) {
+    public ResponseEntity<Payment> update(@PathVariable Long id, @Validated @RequestBody Payment payment) {
         log.info("PUT /api/payments/{}", id);
         return paymentService.update(id, payment)
                 .map(ResponseEntity::ok)

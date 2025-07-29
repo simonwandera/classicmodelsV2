@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product create(Product product) {
         log.info("Creating product: {}", product.getProductName());
+        product.setProductCode(generateProductCode());
         return productRepository.save(product);
     }
 
@@ -57,5 +59,18 @@ public class ProductServiceImpl implements ProductService {
             productRepository.deleteById(id);
             return true;
         }).orElse(false);
+
+    }
+
+    @Override
+    public String generateProductCode() {
+
+        int hashCode = UUID.randomUUID().hashCode();
+
+        // Ensure positive and limit to 8 digits
+        int refNumber = Math.abs(hashCode) % 100000000;
+
+        // Format with leading zeros
+        return String.format("%08d", refNumber);
     }
 }

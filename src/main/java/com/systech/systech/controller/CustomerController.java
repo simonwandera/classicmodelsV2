@@ -1,8 +1,8 @@
 package com.systech.systech.controller;
 
 
-import com.systech.systech.Entity.Customers;
-import com.systech.systech.service.CustomersService;
+import com.systech.systech.Entity.Customer;
+import com.systech.systech.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +16,17 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-public class CustomersController {
-    private final CustomersService customerService;
+public class CustomerController {
+    private final CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<List<Customers>> getAll() {
+    public ResponseEntity<List<Customer>> getAll() {
         log.info("GET /api/customers");
         return ResponseEntity.ok(customerService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customers> getById(@PathVariable Long id) {
+    public ResponseEntity<Customer> getById(@PathVariable Long id) {
         log.info("GET /api/customers/{}", id);
         return customerService.getById(id)
                 .map(ResponseEntity::ok)
@@ -34,7 +34,7 @@ public class CustomersController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Customers> getByName(@PathVariable String name) {
+    public ResponseEntity<Customer> getByName(@PathVariable String name) {
         log.info("GET /api/customers/name/{}", name);
         return customerService.getByCustomerName(name)
                 .map(ResponseEntity::ok)
@@ -42,25 +42,25 @@ public class CustomersController {
     }
 
     @GetMapping("/rep/{employeeId}")
-    public ResponseEntity<List<Customers>> getBySalesRep(@PathVariable Long employeeId) {
+    public ResponseEntity<List<Customer>> getBySalesRep(@PathVariable Long employeeId) {
         log.info("GET /api/customers/rep/{}", employeeId);
         return ResponseEntity.ok(customerService.getBySalesRep(employeeId));
     }
 
     @GetMapping("/country/{country}")
-    public ResponseEntity<List<Customers>> getByCountry(@PathVariable String country) {
+    public ResponseEntity<List<Customer>> getByCountry(@PathVariable String country) {
         log.info("GET /api/customers/country/{}", country);
         return ResponseEntity.ok(customerService.getByCountry(country));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Customers> create(@Validated @RequestBody Customers customer) {
+    public ResponseEntity<Customer> create(@Validated @RequestBody Customer customer) {
         log.info("POST /api/customers");
         return ResponseEntity.ok(customerService.create(customer));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customers> update(@PathVariable Long id, @Validated @RequestBody Customers customer) {
+    public ResponseEntity<Customer> update(@PathVariable Long id, @Validated @RequestBody Customer customer) {
         log.info("PUT /api/customers/{}", id);
         return customerService.update(id, customer)
                 .map(ResponseEntity::ok)

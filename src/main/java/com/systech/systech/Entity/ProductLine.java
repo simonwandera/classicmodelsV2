@@ -22,6 +22,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProductLine extends BaseEntity {
 
+    @Column(name = "product_line", unique = true, nullable = false)
+    private String productLine;
+
     @Column
     private String productCode;
 

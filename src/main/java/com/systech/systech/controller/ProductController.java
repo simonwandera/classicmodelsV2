@@ -27,24 +27,12 @@ public class ProductController {
     // For example, you can create methods to handle CRUD operations for products
 
     //     Example method to get all products
-    @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        Product product = new Product();
 
-        product.setProductName("Sample Product");
-
-        if (product.getId() == null ) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-
-//         ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-         return ResponseEntity.ok(List.of(product));
-     }
     private final ProductService productService;
 
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
-        log.info("GET /api/products");
+        log.info("/api/products");
         return ResponseEntity.ok(productService.getAll());
     }
 
@@ -67,6 +55,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Product> create(@Validated @RequestBody Product product) {
         log.info("POST /api/products");
+
         return ResponseEntity.ok(productService.create(product));
     }
 

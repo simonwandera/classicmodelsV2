@@ -11,12 +11,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -26,10 +24,11 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Customers extends BaseEntity{
+public class Customer extends BaseEntity{
+
 
     @Column(name = "customer_number", nullable = false, unique = true)
-    private String customerNumber;
+    private Long customerNumber;
 
     @Column(name = "customer_name",nullable = false)
     private String customerName;
@@ -70,9 +69,9 @@ public class Customers extends BaseEntity{
 
     // One-to-Many relationship with Orders
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Orders> orders;
+    private List<Order> orders;
 
     // One-to-Many relationship with Payments
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Payments> payments;
+    private List<Payment> payments;
 }

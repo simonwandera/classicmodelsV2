@@ -24,11 +24,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(exclude = {"customer", "orderDetails"}) // Exclude to avoid circular references
-public class Orders {
+public class Order extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     private String orderNumber;
@@ -51,12 +48,12 @@ public class Orders {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_number", nullable = false)
     @JsonIgnore
-    private Customers customer;
+    private Customer customer;
     // One-to-Many relationship with OrderDetails
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //when I do something to the parent, also do it to the children.
     @JsonIgnore
-    private List <OrderDetails> orderDetails;
+    private List <OrderDetail> orderDetails;
 
 }

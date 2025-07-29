@@ -6,9 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "payments")
 @Data
@@ -16,14 +13,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString(exclude = {"customer"})
 
-public class Payments extends BaseEntity {
+public class Payment extends BaseEntity {
+
 
     @Column(name = "check_number")
     private String checkNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_number", nullable = false) // foreign key column
-    private Customers customer;
+    private Customer customer;
 
     @Column(name = "payment_date", nullable = false)
     private String paymentDate;

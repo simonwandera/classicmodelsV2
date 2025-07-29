@@ -1,6 +1,5 @@
 package com.systech.systech.service;
 
-import com.systech.systech.Entity.Customers;
 import com.systech.systech.Entity.Product;
 
 import java.util.List;
@@ -18,6 +17,7 @@ public interface ProductService {
     Optional<Product> update(Long id, Product updatedProduct);
 
     boolean delete(Long id);
+    String generateProductCode();
 
 
 }

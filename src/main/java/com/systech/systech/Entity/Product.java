@@ -1,5 +1,7 @@
 package com.systech.systech.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,35 +29,46 @@ import java.util.List;
 @NoArgsConstructor
 public class Product extends BaseEntity{
 
-    @Column(name = "productCode")
+
+    @Column(name = "product_code")
     private String productCode;
 
-    @Column(nullable = false)
+    @Column
     private String productName;
 
-    @Column(nullable = false)
-    private String MSRP;
+    @Column(name="msrp")
+    private String msrp;
 
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false )
     @JoinColumn(name = "product_line_id")
-    private ProductLine product_line;
+    private ProductLine productLine;
 
-    @Column(nullable = false)
-    private String product_scale;
+    @JsonProperty("productLine")
+    public void setProductLineFormId(long id){
+        ProductLine line = new ProductLine();
+        line.setId(id);
+        this.productLine = line;
 
-    @Column(nullable = false)
-    private String product_vendor;
+    }
 
-    @Column(nullable = false)
-    private String product_description;
+    @Column
+    private String productScale;
 
-    @Column(nullable = false)
-    private String quantity_in_stock;
+    @Column
+    private String productVendor;
 
-    @Column(nullable = false)
-    private String buy_price;
+    @Column
+    private String productDescription;
+
+    @Column
+    private String quantityInStock;
+
+    @Column
+    private String buyPrice;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List <OrderDetails> orderDetails;
+    private List <OrderDetail> orderDetails;
 }
 
