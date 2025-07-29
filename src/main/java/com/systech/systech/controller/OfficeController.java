@@ -1,7 +1,7 @@
 package com.systech.systech.controller;
 
 import com.systech.systech.Entity.Office;
-import com.systech.systech.service.OfficeService;
+import com.systech.systech.service.OfficeServiceI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class OfficeController {
 
-    private final OfficeService officeService;
+    private final OfficeServiceI officeService;
 
     @PostMapping
     public ResponseEntity<Office> createOffice(@RequestBody Office office) {

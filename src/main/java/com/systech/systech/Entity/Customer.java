@@ -9,14 +9,19 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "customers")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer extends BaseEntity{
@@ -58,12 +63,12 @@ public class Customer extends BaseEntity{
     private Double creditLimit;
 
     @ManyToOne
-    @JoinColumn(name = "sales_rep_id", nullable = false)
+    @JoinColumn(name = "salesRepEmployeeNumber", referencedColumnName = "employeeNumber")
     private Employee salesRep;
 
     // One-to-Many relationship with Orders
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Orders> orders;
+    private List<Order> orders;
 
     // One-to-Many relationship with Payments
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

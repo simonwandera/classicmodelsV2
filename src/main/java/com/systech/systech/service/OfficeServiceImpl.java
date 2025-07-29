@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class OfficeServiceImpl implements OfficeService {
+public class OfficeServiceImpl implements OfficeServiceI {
 
     private final OfficeRepository officeRepository;
 

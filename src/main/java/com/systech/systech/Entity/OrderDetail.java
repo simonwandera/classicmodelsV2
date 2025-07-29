@@ -36,7 +36,7 @@ public class OrderDetail extends BaseEntity {
     // Many-to-One relationship with Orders
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")//references the ID, not orderNumber
-    private Orders order;
+    private Order order;
 
     // Many-to-One relationship with Products
     @ManyToOne(fetch = FetchType.LAZY)
