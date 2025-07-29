@@ -38,7 +38,7 @@ public class Product extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false )
     @JoinColumn(name = "product_line_id")
-    private ProductLine product_line;
+    private ProductLine productLine;
 
     @Column(nullable = false)
     private String product_scale;

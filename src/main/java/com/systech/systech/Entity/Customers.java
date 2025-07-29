@@ -20,6 +20,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "customers")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customers extends BaseEntity{
@@ -61,8 +62,8 @@ public class Customers extends BaseEntity{
     private Double creditLimit;
 
     @ManyToOne
-    @JoinColumn(name = "sales_rep_employee_number", nullable = false)
-    private Employee salesRepEmployeeNumber;
+    @JoinColumn(name = "sales_rep_id", nullable = false)
+    private Employee salesRep;
 
     // One-to-Many relationship with Orders
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

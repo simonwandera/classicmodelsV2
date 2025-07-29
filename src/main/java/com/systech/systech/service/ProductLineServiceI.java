@@ -7,7 +7,9 @@ import java.util.List;
 
 @Service
 public interface ProductLineServiceI {
-    List<ProductLine> getProductList();
-
-    ProductLine createOrUpdate(ProductLine productLine);
+    ProductLine  createProductLine(ProductLine productLine);
+    ProductLine updateProductLine(Long id, ProductLine productLine);
+    List<ProductLine> getAllProductLines();
+    ProductLine getProductLineById(Long id);
+    void deleteProductLine(Long id);
 }
