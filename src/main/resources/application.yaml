@@ -29,3 +29,5 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework: DEBUG
+    org.springframework.boot.autoconfigure: DEBUG

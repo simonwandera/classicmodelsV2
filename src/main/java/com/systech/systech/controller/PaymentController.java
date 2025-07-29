@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-public class PaymentsController {
+public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping
