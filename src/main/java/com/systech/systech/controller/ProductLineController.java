@@ -20,23 +20,23 @@ import java.util.List;
 @Slf4j
 public class ProductLineController {
 
-    private final ProductLineServiceI productLineService;
+    private final ProductLineServiceI productLineServiceI;
 
     //     Example method to get all products
     @GetMapping
     public ResponseEntity<List<ProductLine>> getList() {
-        List<ProductLine> list = productLineService.getProductList();
+        List<ProductLine> list = productLineServiceI.getAllProductLines();
 
 //         ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         return ResponseEntity.ok(list);
     }
 
-    @PostMapping("/createOrUpdateProduct")
-    public ResponseEntity<ProductLine> createOrUpdateProductLine(@RequestBody ProductLine product) {
+    @PostMapping("/createProduct")
+    public ResponseEntity<ProductLine> createProductLine(@RequestBody ProductLine product) {
 
         log.info("Creating or updating product line: {}", product);
         try {
-            productLineService.createOrUpdate(product);
+            productLineServiceI.createProductLine(product);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

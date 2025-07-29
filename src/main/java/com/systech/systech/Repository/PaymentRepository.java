@@ -10,9 +10,8 @@ import java.util.List;
 public interface PaymentRepository extends JpaRepository<Payments, Long> {
 
 
-    List<Payments> findAll(Long customerId);
 
-    List<Payments> findCheckNumberContainingIgnoreCase(String PartialCheckNumber);
+
 
     List<Payments> findByCustomer_Id(Long customerId);
 
