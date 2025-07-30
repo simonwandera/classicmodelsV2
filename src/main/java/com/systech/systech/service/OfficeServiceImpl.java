@@ -1,6 +1,7 @@
 package com.systech.systech.service;
 
 import com.systech.systech.Entity.Office;
+import com.systech.systech.Repository.EmployeeRepository;
 import com.systech.systech.Repository.OfficeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class OfficeServiceImpl implements OfficeServiceI {
 
     private final OfficeRepository officeRepository;
+    private final AuditLogService auditLogService;
 
     @Override
     public Office createOffice(Office office) {
+        auditLogService.saveOrUpdate("New Office Created", "Office: "+ office.getOfficeCode());
         return officeRepository.save(office);
     }
 

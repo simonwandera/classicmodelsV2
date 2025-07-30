@@ -1,7 +1,7 @@
 package com.systech.systech.controller;
 
 import com.systech.systech.Entity.ProductLine;
-import com.systech.systech.service.ProductLineServiceI;
+import com.systech.systech.service.ProductLineService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,23 +20,23 @@ import java.util.List;
 @Slf4j
 public class ProductLineController {
 
-    private final ProductLineServiceI productLineServiceI;
+    private final ProductLineService productLineService;
 
     //     Example method to get all products
     @GetMapping
     public ResponseEntity<List<ProductLine>> getList() {
-        List<ProductLine> list = productLineServiceI.getAllProductLines();
+        List<ProductLine> list = productLineService.getAllProductLines();
 
 //         ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         return ResponseEntity.ok(list);
     }
 
-    @PostMapping("/createProduct")
+    @PostMapping("/createOrUpdate")
     public ResponseEntity<ProductLine> createProductLine(@RequestBody ProductLine product) {
 
         log.info("Creating or updating product line: {}", product);
         try {
-            productLineServiceI.createProductLine(product);
+            productLineService.createProductLine(product);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

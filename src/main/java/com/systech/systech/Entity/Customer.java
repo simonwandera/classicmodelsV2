@@ -19,8 +19,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "customers")
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -73,4 +72,14 @@ public class Customer extends BaseEntity{
     // One-to-Many relationship with Payments
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Payment> payments;
+
+
+    public String getFullName() {
+        String firstName = contactFirstName != null ? contactFirstName : "";
+        String lastName = contactLastName != null ? contactLastName : "";
+
+        String fullName = (firstName + " " + lastName).trim();
+
+        return fullName.isEmpty() ? "Unknown" : fullName;
+    }
 }

@@ -2,6 +2,11 @@ package com.systech.systech.controller;
 
 import com.systech.systech.Entity.Product;
 import com.systech.systech.service.ProductService;
+import com.systech.systech.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,17 +18,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 @RestController
+@Slf4j
+@RequiredArgsConstructor
 public class ProductController {
 
 
-    private static final Logger log = LoggerFactory.getLogger(ProductController.class);
+    //     Example method to get all products
+
     private final ProductService productService;
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
         log.info("/api/products");

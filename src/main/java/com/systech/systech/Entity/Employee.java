@@ -47,4 +47,13 @@ public class Employee  extends BaseEntity{
     @JoinColumn(name = "reportsTo")
     private Employee manager;
 
+    public String getFullName() {
+        String firstEmployeeName = firstName != null ? firstName : "";
+        String lastEmployeeName = lastName != null ? lastName : "";
+
+        String fullName = (firstEmployeeName + " " + lastEmployeeName).trim();
+
+        return fullName.isEmpty() ? "Unknown" : fullName;
+    }
+
 }

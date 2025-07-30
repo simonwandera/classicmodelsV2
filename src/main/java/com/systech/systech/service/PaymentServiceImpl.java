@@ -6,6 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Year;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +20,7 @@ import java.util.Optional;
 @Slf4j
 public class PaymentServiceImpl implements PaymentService{
     private final PaymentRepository paymentRepository;
+    private final AuditLogService auditLogService;
 
     @Override
     public List<Payment> getAll() {
@@ -61,5 +68,20 @@ public class PaymentServiceImpl implements PaymentService{
             paymentRepository.deleteById(id);
             return true;
         }).orElse(false);
+    }
+
+    @Override
+    public BigDecimal getTotalSalesThisYear() {
+
+        int year = LocalDate.now().getYear();
+
+        LocalDateTime firstDay = Year.of(year).atDay(1).atStartOfDay();
+        LocalDateTime lastDay = Year.of(year).atDay(Year.of(year).length()).atTime(LocalTime.MAX);
+
+        Long totalCount = paymentRepository.getTotalSalesByYear(firstDay, lastDay)
+                .orElse(0L);
+
+        return new BigDecimal(totalCount);
+
     }
 }
