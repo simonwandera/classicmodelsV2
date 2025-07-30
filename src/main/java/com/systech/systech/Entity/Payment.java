@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "payments")
 @Data
@@ -22,12 +26,9 @@ public class Payment extends BaseEntity {
     @JoinColumn(name = "customer_number", nullable = false) // foreign key column
     private Customer customer;
 
-    @Column(name = "payment_date", nullable = false)
-    private String paymentDate;
+    @Column(name = "pmt_date", nullable = false)
+    private LocalDateTime paymentDate;
 
     @Column
-    private String amount;
-
-
-
+    private BigDecimal amount;
 }

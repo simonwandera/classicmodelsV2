@@ -20,4 +20,5 @@ public interface ProductService {
     boolean delete(Long id);
 
 
+    String getMostSoldProduct();
 }

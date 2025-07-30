@@ -11,13 +11,16 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ProductLineServiceImpl implements ProductLineServiceI {
+public class ProductLineServiceImpl implements ProductLineService {
 
     private final ProductLineRepository productLineRepository;
+    private final AuditLogService auditLogService;
 
     @Override
     public ProductLine createProductLine(ProductLine productLine) {
-        return productLineRepository.save(productLine);
+        ProductLine save = productLineRepository.save(productLine);
+        auditLogService.saveOrUpdate("New Product Line Created", "ProductLine: "+ productLine.getProductLine());
+        return save;
     }
 
     @Override

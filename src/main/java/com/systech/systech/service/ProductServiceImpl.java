@@ -1,6 +1,7 @@
 package com.systech.systech.service;
 
 import com.systech.systech.Entity.Product;
+import com.systech.systech.Repository.OrderRepository;
 import com.systech.systech.Repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,17 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+
+
+    @Override
+    public String getMostSoldProduct() {
+
+         Product product =  productRepository.findMostSoldProduct()
+                 .orElse(null);
+
+         return product != null ? product.getProductName() : "None";
+    }
 
     @Override
     public List<Product> getAll(){

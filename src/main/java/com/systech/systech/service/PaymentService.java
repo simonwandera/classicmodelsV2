@@ -2,6 +2,7 @@ package com.systech.systech.service;
 
 import com.systech.systech.Entity.Payment;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,6 @@ public interface PaymentService {
     Optional<Payment> update(Long id, Payment updatedPayment);
 
     boolean delete(Long id);
+
+    BigDecimal getTotalSalesThisYear();
 }

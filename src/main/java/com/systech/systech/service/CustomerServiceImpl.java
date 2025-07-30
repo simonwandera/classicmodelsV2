@@ -1,11 +1,15 @@
 package com.systech.systech.service;
 
 import com.systech.systech.Entity.Customer;
+import com.systech.systech.Entity.Deleted;
+import com.systech.systech.Repository.AuditLogRepository;
 import com.systech.systech.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.sql.Delete;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -14,14 +18,13 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final AuditLogService auditLogService;
 
     @Override
     public List<Customer> getAll() {
         log.info("Fetching all customers");
         return customerRepository.findAll();
     }
-
-
 
     @Override
     public Optional<Customer> getById(Long id) {
@@ -50,7 +53,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer create(Customer customer) {
         log.info("Creating customer: {}", customer.getCustomerName());
-        return customerRepository.save(customer);
+        Customer save = customerRepository.save(customer);
+        auditLogService.saveOrUpdate("New Customer Created", "Customer: "+ customer.getFullName());
+        return save;
     }
 
     @Override
@@ -58,6 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Updating customer with ID: {}", id);
         return customerRepository.findById(id).map(existing -> {
             updatedCustomer.setId(id);
+            auditLogService.saveOrUpdate("Customer Update", "Customer: "+ existing.getFullName());
             return customerRepository.save(updatedCustomer);
         });
     }
@@ -69,5 +75,18 @@ public class CustomerServiceImpl implements CustomerService {
             customerRepository.deleteById(id);
             return true;
         }).orElse(false);
+    }
+
+    /**
+     * @return 
+     */
+    @Override
+    public BigDecimal getCustomerCount() {
+        long count = customerRepository.findAll()
+                .stream()
+                .filter(customer -> Deleted.AVAILABLE.equals(customer.getDeleted())
+                ).count();
+
+        return new BigDecimal(count);
     }
 }

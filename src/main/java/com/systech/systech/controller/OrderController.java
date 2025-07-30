@@ -1,7 +1,7 @@
 package com.systech.systech.controller;
 
 import com.systech.systech.Entity.Order;
-import com.systech.systech.service.OrderServiceI;
+import com.systech.systech.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {
-    private final OrderServiceI ordersService;
+    private final OrderService ordersService;
 
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
