@@ -1,27 +1,29 @@
 package com.systech.systech.controller;
 
 import com.systech.systech.Entity.Product;
-import org.springframework.data.domain.Example;
-import org.springframework.http.HttpStatus;
+import com.systech.systech.service.ProductService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @RestController
 public class ProductController {
 
-    // POST, GET, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE
-    // Define endpoints for product-related operations here
-    // For example, you can create methods to handle CRUD operations for products
 
-    //     Example method to get all products
-
+    private static final Logger log = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
-
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
         log.info("/api/products");
