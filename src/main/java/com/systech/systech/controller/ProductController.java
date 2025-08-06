@@ -7,16 +7,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,8 +23,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
 
+
+    //     Example method to get all products
+
     private final ProductService productService;
 
+    // Get all products (paginated)
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
         return ResponseEntity.ok(productService.getAll());
@@ -49,12 +50,17 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> create(@Validated @RequestBody Product product) {
-
-        return ResponseEntity.ok(productService.create(product));
+        log.info("POST /api/products - Creating product: {}", product.getProductName());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(productService.create(product));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> update(@PathVariable Long id, @Validated @RequestBody Product product) {
+    public ResponseEntity<Product> update(
+            @PathVariable Long id,
+            @Validated @RequestBody Product product) {
+
+        log.info("PUT /api/products/{} - Updating product", id);
         return productService.update(id, product)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -67,4 +73,55 @@ public class ProductController {
                 : ResponseEntity.notFound().build();
     }
 
+    // New endpoints for frontend requirements
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<Page<Product>> getByCategory(
+            @PathVariable String category,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "ASC") String direction) {
+
+        log.info("GET /api/products/category/{}", category);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy));
+        return ResponseEntity.ok(productService.findByCategory(category, pageable));
+    }
+
+    @GetMapping("/new-arrivals")
+    public ResponseEntity<Page<Product>> getNewArrivals(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        log.info("GET /api/products/new-arrivals");
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        return ResponseEntity.ok(productService.findNewArrivals(pageable));
+    }
+
+    @GetMapping("/best-sellers")
+    public ResponseEntity<Page<Product>> getBestSellers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        log.info("GET /api/products/best-sellers");
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(productService.findBestSellers(pageable));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Product>> searchProducts(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        log.info("GET /api/products/search?query={}", query);
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(productService.searchProducts(query, pageable));
+    }
+
+    @GetMapping("/most-sold")
+    public ResponseEntity<String> getMostSoldProduct() {
+        log.info("GET /api/products/most-sold");
+        return ResponseEntity.ok(productService.getMostSoldProduct());
+    }
 }
