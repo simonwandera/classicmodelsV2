@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/offices")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class OfficeController {
 
     private final OfficeServiceI officeService;
@@ -34,6 +33,8 @@ public class OfficeController {
             List<Office> offices = officeService.getAllOffices();
             return new ResponseEntity<>(offices, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
+
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
