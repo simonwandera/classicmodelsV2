@@ -20,10 +20,13 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
+    private final AuditLogService auditLogService;
+
     public List<Order> getOrders() {
 
         return orderRepository.findAll();
     }
+
     @Override
     public Order getById(Long id) {
         Optional<Order> order = orderRepository.findById(id);
@@ -36,7 +39,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order createOrUpdate(Order order) {
 
-        return  orderRepository.save(order);
+        order = orderRepository.save(order);
+        auditLogService.saveOrUpdate("Created Order", "Order - " + order.getOrderNumber());
+        return order;
     }
 
     @Override

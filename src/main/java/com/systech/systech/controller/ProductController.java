@@ -15,29 +15,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @Slf4j
+@RequestMapping("/api/product")
 @RequiredArgsConstructor
 public class ProductController {
-
-
-    //     Example method to get all products
 
     private final ProductService productService;
 
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
-        log.info("/api/products");
         return ResponseEntity.ok(productService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getById(@PathVariable Long id) {
-        log.info("GET /api/products/{}", id);
         return productService.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -45,7 +42,6 @@ public class ProductController {
 
     @GetMapping("/code/{code}")
     public ResponseEntity<Product> getByProductCode(@PathVariable String code) {
-        log.info("GET /api/products/code/{}", code);
         return productService.getByProductCode(code)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -53,14 +49,12 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> create(@Validated @RequestBody Product product) {
-        log.info("POST /api/products");
 
         return ResponseEntity.ok(productService.create(product));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable Long id, @Validated @RequestBody Product product) {
-        log.info("PUT /api/products/{}", id);
         return productService.update(id, product)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -68,7 +62,6 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        log.info("DELETE /api/products/{}", id);
         return productService.delete(id)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
