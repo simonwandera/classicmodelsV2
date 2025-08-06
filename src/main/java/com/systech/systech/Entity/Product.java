@@ -27,32 +27,49 @@ public class Product extends BaseEntity{
     @Column(name = "productCode")
     private String productCode;
 
-    @Column(nullable = false)
-    private String productName;
+    @Column(name = "product_name", nullable = false)
+    private String productName; // Changed from productName to match frontend
 
-    @Column(nullable = false)
-    private String MSRP;
+    @Column(name = "price", nullable = false)
+    private Double MSRP; // Changed from PRICE to match frontend
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false )
+    @Column(name = "original_price")
+    private Double originalPrice; // New field for frontend
+
+    @Column(name = "category")
+    private String category; // New field for frontend
+
+    // New field for frontend
+
+    @Column(name = "rating")
+    private Double rating; // New field for frontend
+
+    @Column(name = "is_new")
+    private Boolean isNew; // New field for frontend
+
+    @Column(name = "is_best_seller")
+    private Boolean isBestSeller; // New field for frontend
+
+    @Column(name = "quantity_in_stock")
+    private Integer quantity_in_stock; // Changed from quantity_in_stock to match frontend
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_line_id")
     private ProductLine productLine;
 
-    @Column(nullable = false)
-    private String product_scale;
+    @Column(name = "product_scale")
+    private String product_scale; // Changed from product_scale
 
-    @Column(nullable = false)
-    private String product_vendor;
+    @Column(name = "product_vendor")
+    private String product_vendor; // Changed from product_vendor
 
-    @Column(nullable = false)
-    private String product_description;
+    @Column(name = "product_description", columnDefinition = "TEXT")
+    private String product_description; // Changed from product_description
 
-    @Column(nullable = false)
-    private String quantity_in_stock;
-
-    @Column(nullable = false)
-    private String buy_price;
+    @Column(name = "buy_price")
+    private Double buy_price; // Changed from buy_price
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List <OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails;
 }
 
