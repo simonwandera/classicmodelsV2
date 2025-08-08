@@ -30,4 +30,5 @@ public interface ProductService {
     Page<Product> findNewArrivals(Pageable pageable);
     Page<Product> findBestSellers(Pageable pageable);
     Page<Product> searchProducts(String query, Pageable pageable);
+
 }
