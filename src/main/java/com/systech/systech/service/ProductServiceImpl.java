@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
         // Set default values if null
         if (product.getIsNew() == null) product.setIsNew(true);
         if (product.getRating() == null) product.setRating(0.0);
-        if (product.getQuantity_in_stock() == null) product.setQuantity_in_stock(0);
+        if (product.getQuantityInStock() == null) product.setQuantityInStock(0);
         if (product.getIsBestSeller() == null) product.setIsBestSeller(false);
 
         // Ensure uniqueness for productCode (optional check)

@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "products")//I think the table name here is supposed to be products
+@Table(name = "product")//I think the table name here is supposed to be products
 @Getter
 @Setter
 @AllArgsConstructor
@@ -51,23 +51,23 @@ public class Product extends BaseEntity{
     private Boolean isBestSeller; // New field for frontend
 
     @Column(name = "quantity_in_stock")
-    private Integer quantity_in_stock; // Changed from quantity_in_stock to match frontend
+    private Integer quantityInStock; // Changed from quantity_in_stock to match frontend
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_line_id")
     private ProductLine productLine;
 
     @Column(name = "product_scale")
-    private String product_scale; // Changed from product_scale
+    private String productScale; // Changed from product_scale
 
     @Column(name = "product_vendor")
-    private String product_vendor; // Changed from product_vendor
+    private String productVendor; // Changed from product_vendor
 
     @Column(name = "product_description", columnDefinition = "TEXT")
-    private String product_description; // Changed from product_description
+    private String productDescription; // Changed from product_description
 
     @Column(name = "buy_price")
-    private Double buy_price; // Changed from buy_price
+    private Double buyPrice; // Changed from buy_price
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> orderDetails;
