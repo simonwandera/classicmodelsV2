@@ -1,6 +1,10 @@
 package com.systech.systech.controller;
 
+import com.systech.systech.Dto.CompleteOrderDTO;
+import com.systech.systech.Dto.CustomerDTO;
+import com.systech.systech.Dto.OrderItemDTO;
 import com.systech.systech.Entity.Order;
+import com.systech.systech.service.OrderItemService;
 import com.systech.systech.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +22,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {
+
     private final OrderService ordersService;
+    private final OrderItemService orderItemService; // Added
+
+
 
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
@@ -41,7 +50,6 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
-    // Update existing order
     @PutMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
         log.info("Updating order with id {}: {}", id, order);
@@ -50,7 +58,6 @@ public class OrderController {
         return ResponseEntity.ok(updatedOrder);
     }
 
-    // Create or update orders
     @PostMapping("/createOrUpdateOrders")
     public ResponseEntity<Order> createOrUpdateOrders(@RequestBody Order order) {
         log.info("Creating or updating orders: {}", order);
@@ -58,7 +65,6 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    // Delete order
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         log.info("Deleting order with id: {}", id);
@@ -66,7 +72,60 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    // Global exception handler for this controller
+    // ---------------- New Order Items Endpoints ---------------- //
+
+    @GetMapping("/{orderId}/items")
+    public ResponseEntity<List<OrderItemDTO>> getOrderItems(@PathVariable Long orderId) {
+        try {
+            log.info("Fetching items for order {}", orderId);
+            List<OrderItemDTO> orderItems = orderItemService.getOrderItemsByOrderId(orderId);
+
+            // Always return 200 with empty list if no items
+            return ResponseEntity.ok(orderItems != null ? orderItems : Collections.emptyList());
+        } catch (Exception e) {
+            log.error("Error fetching order items for order {}: {}", orderId, e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/{orderId}/complete")
+    public ResponseEntity<CompleteOrderDTO> getCompleteOrder(@PathVariable Long orderId) {
+        log.info("Fetching complete order details for order {}", orderId);
+
+        Order order = ordersService.getById(orderId);
+        if (order == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<OrderItemDTO> orderItems = orderItemService.getOrderItemsByOrderId(orderId);
+
+        // Build CustomerDTO
+        CustomerDTO customerDTO = new CustomerDTO(
+                order.getCustomer().getId(),
+                order.getCustomer().getCustomerName(),
+                order.getCustomer().getCustomerNumber()
+        );
+        customerDTO.setPhone(order.getCustomer().getPhone());
+        customerDTO.setAddress(order.getCustomer().getAddressLine1());
+
+        // Build CompleteOrderDTO
+        CompleteOrderDTO completeOrder = new CompleteOrderDTO();
+        completeOrder.setId(order.getId());
+        completeOrder.setOrderNumber(order.getOrderNumber());
+        completeOrder.setOrderDate(order.getOrderDate());
+        completeOrder.setRequiredDate(order.getRequiredDate());
+        completeOrder.setShippedDate(order.getShippedDate());
+        completeOrder.setStatus(order.getStatus());
+        completeOrder.setComments(order.getComments());
+        completeOrder.setCustomer(customerDTO);
+        completeOrder.setItems(orderItems);
+        completeOrder.setTotalAmount(calculateTotalAmount(orderItems));
+
+        return ResponseEntity.ok(completeOrder);
+    }
+
+    // ---------------- Exception Handlers ---------------- //
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleException(Exception e) {
         log.error("Error occurred: ", e);
@@ -74,11 +133,21 @@ public class OrderController {
                 .body(Map.of("error", "An error occurred while processing your request"));
     }
 
-    // You can add more specific exception handlers
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException e) {
         log.error("Invalid argument: ", e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("error", e.getMessage()));
+    }
+
+    // ---------------- Private Helpers ---------------- //
+
+    private BigDecimal calculateTotalAmount(List<OrderItemDTO> orderItems) {
+        if (orderItems == null || orderItems.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        return orderItems.stream()
+                .map(OrderItemDTO::getTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

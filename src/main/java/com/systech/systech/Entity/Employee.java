@@ -40,11 +40,11 @@ public class Employee  extends BaseEntity{
     private String jobTitle;
 
     @ManyToOne
-    @JoinColumn(name = "officeCode")
+    @JoinColumn(name = "office_code")
     private Office office;
 
     @ManyToOne
-    @JoinColumn(name = "reportsTo")
+    @JoinColumn(name = "reports_to")
     private Employee manager;
 
     public String getFullName() {
