@@ -26,20 +26,20 @@ import java.util.Map;
 @Slf4j
 public class OrderController {
 
-    private final OrderService ordersService;
+    private final OrderService orderService;
     private final OrderItemService orderItemService;
 
     // ---------------- Get All Orders ---------------- //
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> list = ordersService.getOrders();
+        List<Order> list = orderService.getOrders();
         return ResponseEntity.ok(list != null ? list : Collections.emptyList());
     }
 
     // ---------------- Get Order By ID ---------------- //
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Order order = ordersService.getById(id);
+        Order order = orderService.getById(id);
         return order != null ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
     }
 
@@ -48,7 +48,7 @@ public class OrderController {
     public ResponseEntity<Order> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
         log.info("Creating order: {}", orderRequestDTO);
         Order order = mapToEntity(orderRequestDTO);
-        Order createdOrder = ordersService.createOrUpdate(order);
+        Order createdOrder = orderService.createOrUpdate(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
@@ -58,7 +58,7 @@ public class OrderController {
         log.info("Updating order with id {}: {}", id, orderRequestDTO);
         Order order = mapToEntity(orderRequestDTO);
         order.setId(id);
-        Order updatedOrder = ordersService.createOrUpdate(order);
+        Order updatedOrder = orderService.createOrUpdate(order);
         return ResponseEntity.ok(updatedOrder);
     }
 
@@ -67,7 +67,7 @@ public class OrderController {
     public ResponseEntity<Order> createOrUpdateOrders(@RequestBody OrderRequestDTO orderRequestDTO) {
         log.info("Creating or updating orders: {}", orderRequestDTO);
         Order order = mapToEntity(orderRequestDTO);
-        Order result = ordersService.createOrUpdate(order);
+        Order result = orderService.createOrUpdate(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -75,7 +75,7 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         log.info("Deleting order with id: {}", id);
-        ordersService.delete(id);
+        orderService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -97,7 +97,7 @@ public class OrderController {
     public ResponseEntity<CompleteOrderDTO> getCompleteOrder(@PathVariable Long orderId) {
         log.info("Fetching complete order details for order {}", orderId);
 
-        Order order = ordersService.getById(orderId);
+        Order order = orderService.getById(orderId);
         if (order == null) {
             return ResponseEntity.notFound().build();
         }
