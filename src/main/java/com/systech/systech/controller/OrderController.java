@@ -3,7 +3,10 @@ package com.systech.systech.controller;
 import com.systech.systech.Dto.CompleteOrderDTO;
 import com.systech.systech.Dto.CustomerDTO;
 import com.systech.systech.Dto.OrderItemDTO;
+import com.systech.systech.Dto.OrderRequestDTO;
+import com.systech.systech.Entity.Customer;
 import com.systech.systech.Entity.Order;
+import com.systech.systech.Repository.CustomerRepository;
 import com.systech.systech.service.OrderItemService;
 import com.systech.systech.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -24,47 +27,51 @@ import java.util.Map;
 public class OrderController {
 
     private final OrderService ordersService;
-    private final OrderItemService orderItemService; // Added
+    private final OrderItemService orderItemService;
 
-
-
+    // ---------------- Get All Orders ---------------- //
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> list = ordersService.getOrders();
         return ResponseEntity.ok(list != null ? list : Collections.emptyList());
     }
 
+    // ---------------- Get Order By ID ---------------- //
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         Order order = ordersService.getById(id);
-        if (order != null) {
-            return ResponseEntity.ok(order);
-        }
-        return ResponseEntity.notFound().build();
+        return order != null ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
     }
 
+    // ---------------- Create Order ---------------- //
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        log.info("Creating order: {}", order);
+    public ResponseEntity<Order> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+        log.info("Creating order: {}", orderRequestDTO);
+        Order order = mapToEntity(orderRequestDTO);
         Order createdOrder = ordersService.createOrUpdate(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
+    // ---------------- Update Order ---------------- //
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
-        log.info("Updating order with id {}: {}", id, order);
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody OrderRequestDTO orderRequestDTO) {
+        log.info("Updating order with id {}: {}", id, orderRequestDTO);
+        Order order = mapToEntity(orderRequestDTO);
         order.setId(id);
         Order updatedOrder = ordersService.createOrUpdate(order);
         return ResponseEntity.ok(updatedOrder);
     }
 
+    // ---------------- Create or Update Orders (Bulk or Single) ---------------- //
     @PostMapping("/createOrUpdateOrders")
-    public ResponseEntity<Order> createOrUpdateOrders(@RequestBody Order order) {
-        log.info("Creating or updating orders: {}", order);
+    public ResponseEntity<Order> createOrUpdateOrders(@RequestBody OrderRequestDTO orderRequestDTO) {
+        log.info("Creating or updating orders: {}", orderRequestDTO);
+        Order order = mapToEntity(orderRequestDTO);
         Order result = ordersService.createOrUpdate(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+    // ---------------- Delete Order ---------------- //
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         log.info("Deleting order with id: {}", id);
@@ -72,15 +79,12 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    // ---------------- New Order Items Endpoints ---------------- //
-
+    // ---------------- Get Order Items ---------------- //
     @GetMapping("/{orderId}/items")
     public ResponseEntity<List<OrderItemDTO>> getOrderItems(@PathVariable Long orderId) {
         try {
             log.info("Fetching items for order {}", orderId);
             List<OrderItemDTO> orderItems = orderItemService.getOrderItemsByOrderId(orderId);
-
-            // Always return 200 with empty list if no items
             return ResponseEntity.ok(orderItems != null ? orderItems : Collections.emptyList());
         } catch (Exception e) {
             log.error("Error fetching order items for order {}: {}", orderId, e.getMessage(), e);
@@ -88,6 +92,7 @@ public class OrderController {
         }
     }
 
+    // ---------------- Get Complete Order Details ---------------- //
     @GetMapping("/{orderId}/complete")
     public ResponseEntity<CompleteOrderDTO> getCompleteOrder(@PathVariable Long orderId) {
         log.info("Fetching complete order details for order {}", orderId);
@@ -99,7 +104,6 @@ public class OrderController {
 
         List<OrderItemDTO> orderItems = orderItemService.getOrderItemsByOrderId(orderId);
 
-        // Build CustomerDTO
         CustomerDTO customerDTO = new CustomerDTO(
                 order.getCustomer().getId(),
                 order.getCustomer().getCustomerName(),
@@ -108,7 +112,6 @@ public class OrderController {
         customerDTO.setPhone(order.getCustomer().getPhone());
         customerDTO.setAddress(order.getCustomer().getAddressLine1());
 
-        // Build CompleteOrderDTO
         CompleteOrderDTO completeOrder = new CompleteOrderDTO();
         completeOrder.setId(order.getId());
         completeOrder.setOrderNumber(order.getOrderNumber());
@@ -125,7 +128,6 @@ public class OrderController {
     }
 
     // ---------------- Exception Handlers ---------------- //
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleException(Exception e) {
         log.error("Error occurred: ", e);
@@ -141,7 +143,6 @@ public class OrderController {
     }
 
     // ---------------- Private Helpers ---------------- //
-
     private BigDecimal calculateTotalAmount(List<OrderItemDTO> orderItems) {
         if (orderItems == null || orderItems.isEmpty()) {
             return BigDecimal.ZERO;
@@ -149,5 +150,20 @@ public class OrderController {
         return orderItems.stream()
                 .map(OrderItemDTO::getTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+    private final CustomerRepository customerRepository;
+    private Order mapToEntity(OrderRequestDTO dto) {
+        Order order = new Order();
+        order.setOrderNumber(dto.getOrderNumber());
+        order.setOrderDate(dto.getOrderDate());
+        order.setRequiredDate(dto.getRequiredDate());
+        order.setShippedDate(dto.getShippedDate());
+        order.setStatus(dto.getStatus());
+        order.setComments(dto.getComments());
+
+        Customer customer = customerRepository.findByCustomerNumber(dto.getCustomerNumber())
+                .orElseThrow(() -> new IllegalArgumentException("Customer not found: " + dto.getCustomerNumber()));
+        order.setCustomer(customer);
+        return order;
     }
 }
