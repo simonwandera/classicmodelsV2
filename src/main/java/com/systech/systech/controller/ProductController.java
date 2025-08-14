@@ -23,10 +23,23 @@ public class ProductController {
 
     private final ProductService productService;
 
-    // Get all products
+    // Get all products with pagination support
     @GetMapping
-    public ResponseEntity<List<Product>> getAll() {
-        return ResponseEntity.ok(productService.getAll());
+    public ResponseEntity<?> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "productName") String sortBy,
+            @RequestParam(defaultValue = "ASC") String direction,
+            @RequestParam(defaultValue = "false") boolean paginated) {
+
+        if (paginated) {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy));
+            Page<Product> result = productService.getAll(pageable);
+            return ResponseEntity.ok(result);
+        } else {
+            List<Product> result = productService.getAll();
+            return ResponseEntity.ok(result);
+        }
     }
 
     // Get product by ID
@@ -49,9 +62,12 @@ public class ProductController {
     @PostMapping()
     public ResponseEntity<Product> create(@Validated @RequestBody Product product) {
         log.info("POST /api/product - Creating product: {}", product.getProductName());
-        System.out.println(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(product));
 
+        // Log the received product data for debugging
+        log.debug("Received product data: {}", product);
+
+        Product createdProduct = productService.create(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
     // Update a product
@@ -97,7 +113,7 @@ public class ProductController {
             @RequestParam(defaultValue = "10") int size) {
 
         log.info("GET /api/product/new-arrivals");
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         return ResponseEntity.ok(productService.findNewArrivals(pageable));
     }
 
@@ -125,10 +141,34 @@ public class ProductController {
         return ResponseEntity.ok(result);
     }
 
-    // Get the most sold product (returns name or ID, modify as needed)
+    // Get the most sold product
     @GetMapping("/most-sold")
     public ResponseEntity<String> getMostSoldProduct() {
         log.info("GET /api/product/most-sold");
         return ResponseEntity.ok(productService.getMostSoldProduct());
+    }
+
+    // Get products with low stock
+    @GetMapping("/low-stock")
+    public ResponseEntity<List<Product>> getLowStockProducts(
+            @RequestParam(defaultValue = "5") int threshold) {
+        log.info("GET /api/product/low-stock with threshold: {}", threshold);
+        return ResponseEntity.ok(productService.findLowStockProducts(threshold));
+    }
+
+    // Get products in price range
+    @GetMapping("/price-range")
+    public ResponseEntity<List<Product>> getProductsByPriceRange(
+            @RequestParam Double minPrice,
+            @RequestParam Double maxPrice) {
+        log.info("GET /api/product/price-range from {} to {}", minPrice, maxPrice);
+        return ResponseEntity.ok(productService.findByPriceRange(minPrice, maxPrice));
+    }
+
+    // Get discounted products
+    @GetMapping("/discounted")
+    public ResponseEntity<List<Product>> getDiscountedProducts() {
+        log.info("GET /api/product/discounted");
+        return ResponseEntity.ok(productService.findDiscountedProducts());
     }
 }
