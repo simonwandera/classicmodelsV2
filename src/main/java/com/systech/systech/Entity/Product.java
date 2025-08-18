@@ -45,6 +45,7 @@ public class Product extends BaseEntity{
         this.MSRP = price;
     }
 
+
     @Column(name = "original_price")
     private Double originalPrice;
 
