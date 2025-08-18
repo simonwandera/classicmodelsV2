@@ -12,22 +12,21 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class ProductLineServiceImpl implements ProductLineService {
-
     private final ProductLineRepository productLineRepository;
-    private final AuditLogService auditLogService;
 
     @Override
     public ProductLine createProductLine(ProductLine productLine) {
-        ProductLine save = productLineRepository.save(productLine);
-        auditLogService.saveOrUpdate("New Product Line Created", "ProductLine: "+ productLine.getProductLine());
-        return save;
+        return productLineRepository.save(productLine);
     }
 
     @Override
     public ProductLine updateProductLine(Long id, ProductLine productLine) {
         ProductLine existing = productLineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product line not found"));
-        // Update fields here
+        existing.setProductLine(productLine.getProductLine());
+        existing.setTextDescription(productLine.getTextDescription());
+        existing.setHtmlDescription(productLine.getHtmlDescription());
+        existing.setImage(productLine.getImage());
         return productLineRepository.save(existing);
     }
 
@@ -44,6 +43,9 @@ public class ProductLineServiceImpl implements ProductLineService {
 
     @Override
     public void deleteProductLine(Long id) {
+        if (!productLineRepository.existsById(id)) {
+            throw new RuntimeException("Product line not found");
+        }
         productLineRepository.deleteById(id);
     }
 }
