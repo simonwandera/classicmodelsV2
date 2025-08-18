@@ -17,9 +17,7 @@ import java.util.List;
 @RequestMapping("api/product-lines")
 @RequiredArgsConstructor
 @Slf4j
-
 public class ProductLineController {
-
 
     private final ProductLineService productLineService;
     private final FileStorageService fileStorageService;
